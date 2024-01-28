@@ -3,13 +3,11 @@
 namespace App\Listeners;
 
 use App\Events\UserCreateEvent;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Http\Request;
 use Illuminate\Support\Str;
 use Mail;
-use App\Models\User;
 
 class UserCreateEventListener
 {
@@ -29,15 +27,20 @@ class UserCreateEventListener
         try {
             $request = request();
             DB::transaction(function () use ($request, $event) {
-        
-                $name = $event->name;
+
+                $name  = $event->name;
                 $email = $event->email;
-        
-                $password = Str::random(8);
+                $role = $event->role;
+                $password = $event->password;
+
                 $token    = Str::random(64);
                 $formData = ['name' => $name, 'email' => $email, 'password' => $password];
 
-                Mail::send('auth.mails.register', ['password' => $password, 'token' => $token], function ($message) use ($request) {
+                $link_expires_minute   = 1;
+                $url_expiration_minute = now()->addMinutes($link_expires_minute);
+                $url                   = \URL::temporarySignedRoute('admin.registration_email_confirmation', $url_expiration_minute, ['token' => $token]);
+
+                Mail::send('auth.mails.register', ['role' => $role, 'password' => $password, 'name' => $name, 'url' => $url], function ($message) use ($request) {
                     $message->to($request->email);
                     $message->subject('New User');
                 });
@@ -48,10 +51,7 @@ class UserCreateEventListener
                     'created_at' => now(),
                 ]);
 
-                $newly_user = User::create($formData)->assignRole(User::USER);
-                /*if ($request->hasFile('profile')) {
-                    $newly_user->saveMedia();
-                }*/
+                $newly_user = User::create($formData)->assignRole($role);
             });
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());

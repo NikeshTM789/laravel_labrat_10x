@@ -17,10 +17,12 @@ class UserCreateEvent
     /**
      * Create a new event instance.
      */
-    public function __construct(public String $name, public String $email)
+    public function __construct(public String $name, public String $password, public String $email, public String $role)
     {
         $this->name = $name;
+        $this->password = $password;
         $this->email = $email;
+        $this->role = $role;
     }
 
     /**

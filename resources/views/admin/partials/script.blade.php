@@ -10,8 +10,9 @@
 
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('AdminLTE-3.2.0/dist/js/demo.js') }}"></script>
+<script src="{{ asset('packages/toastr/toastr.min.js') }}"></script>
 
-<script src="{{ asset('AdminLTE-3.2.0/plugins/toastr/toastr.min.js') }}"></script>
+@stack('pre-js')
 
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 
@@ -29,4 +30,4 @@
 </script>
 @endif
 
-@stack('js')
+@stack('post-js')

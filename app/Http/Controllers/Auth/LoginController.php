@@ -26,13 +26,15 @@ class LoginController extends Controller
 
                 return back()->withErrors(['Too many login attempts. please try again after '.$seconds.' seconds']);
             }
-
             if (Auth::attempt($credentials, $request->has('remember'))) {
-                auth()->user()->update(['email_verified_at' => now()]);
-
+                $user = auth()->user();
+                if(empty($user->email_verified_at)){
+                    auth()->logout();
+                    return back()->withErrors(['Email not verified']);
+                }
                 RateLimiter::clear($identifier);
 
-                return redirect()->intended('admin');
+                return redirect()->intended(route('admin.dashboard'));
             }
 
             RateLimiter::hit($identifier, 120/* decay time in seconds*/);

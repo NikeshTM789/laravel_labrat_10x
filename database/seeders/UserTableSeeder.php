@@ -15,22 +15,15 @@ class UserTableSeeder extends Seeder
     {
         $password = bcrypt('password');
 
-        (\App\Models\User::factory()->create([
-                    'name' => 'Super Admin',
-                    'email' => 'supreme@dev.com',
-                    'password' => $password
-                ]))->assignRole(User::SUPREME);
-
-        (\App\Models\User::factory()->create([
-                    'name' => 'Administrator',
-                    'email' => 'admin@dev.com',
-                    'password' => $password
-                ]))->syncRoles(User::ADMIN);
-
-        (\App\Models\User::factory()->create([
-                    'name' => 'User',
-                    'email' => 'user@dev.com',
-                    'password' => $password
-                ]))->assignRole(User::USER);
+        $i = 0;
+        while ($i < 20) {
+            User::create([
+                'name' => fake()->name(),
+                'email' => fake()->email(),
+                'password' => $password,
+                'email_verified_at' => fake()->datetime()
+            ])->assignRole(User::USER);
+            $i++;
+        }
     }
 }

@@ -2,7 +2,7 @@
 
 @section('content')
 
-@include('components/errors')
+@include('admin.components.errors')
 
 <form action="{{ route('admin.login') }}" method="post">
   @csrf

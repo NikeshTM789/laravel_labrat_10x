@@ -2,7 +2,7 @@
 
 @section('content')
 
-@include('components/errors')
+@include('admin.components.errors')
 
 <form action="{{ route('admin.register') }}" method="post">
   @csrf
@@ -22,6 +22,22 @@
       </div>
     </div>
   </div>
+  <div class="input-group mb-3">
+  <input type="password" name="password" class="form-control" placeholder="Password">
+  <div class="input-group-append">
+    <div class="input-group-text">
+      <span class="fas fa-lock"></span>
+    </div>
+  </div>
+</div>
+<div class="input-group mb-3">
+  <input type="password" name="password_confirmation" class="form-control" placeholder="Retype password">
+  <div class="input-group-append">
+    <div class="input-group-text">
+      <span class="fas fa-lock"></span>
+    </div>
+  </div>
+</div>
   <div class="row">
     <div class="col-8">
       <div class="icheck-primary">

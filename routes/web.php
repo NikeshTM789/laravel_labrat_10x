@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\{Route, Auth, Session};
-use App\Http\Controllers\Admin\{DashboardController};
+use App\Http\Controllers\Admin\{DashboardController, UserController, CategoryController, ProductController};
 use App\Http\Controllers\Auth\{LoginController, RegisterController, ForgotPasswordController};
 
 /*
@@ -21,16 +21,25 @@ Route::get('/', function () {
 
 
 Route::group(['prefix' => 'admin', 'as' => 'admin'], function() {
-    Route::group(['middleware' => ['auth']], function() {
-        Route::get('/', DashboardController::class); # invokable
+    Route::group(['middleware' => ['auth'], 'as' => '.'], function() {
+        Route::get('dashboard', DashboardController::class)->name('dashboard'); # invokable
+
+        Route::resource('user', UserController::class);
+        Route::match(['GET','POST'], 'user_trash/{user?}', [UserController::class, 'trash'])->name('user.trash')->withTrashed();
+
+        Route::resource('category', CategoryController::class);
+        Route::resource('product', ProductController::class);
         Route::post('logout', function(){
             Session::flush();
             Auth::logout();
             return to_route('admin.login');
-        })->name('.logout');
+        })->name('logout');
     });
     Route::middleware('guest')->group(function(){
-        Route::match(['GET','POST'], 'register', RegisterController::class)->name('.register');
+        Route::controller(RegisterController::class)->group(function(){
+            Route::match(['GET','POST'], 'register', 'register')->name('.register');
+            Route::get('registration_email_confirmation/{token}', 'verifyEmail')->name('.registration_email_confirmation')->middleware('signed');
+        });
         Route::match(['GET','POST'], 'login', LoginController::class)->name('.login');
         Route::controller(ForgotPasswordController::class)->group(function(){
             Route::match(['GET','POST'], 'forgot-password', 'forgotPassword')->name('.forgot-password');
