@@ -28,6 +28,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin'], function() {
         Route::match(['GET','POST'], 'user_trash/{user?}', [UserController::class, 'trash'])->name('user.trash')->withTrashed();
 
         Route::resource('category', CategoryController::class);
+        Route::match(['GET','POST'], 'category_trash/{category?}', [CategoryController::class, 'trash'])->name('category.trash')->withTrashed();
+
         Route::resource('product', ProductController::class);
         Route::post('logout', function(){
             Session::flush();

@@ -24,13 +24,13 @@
         'capital' => [
           'icon' => 'fa fa-store',
           'sub-menu' => [
-            'product' => [
-              'url' => route('admin.product.index'),
-              'active-by' => 'product'
-            ],
             'category' => [
               'url' => route('admin.category.index'),
               'active-by' => 'category'
+            ],
+            'product' => [
+              'url' => route('admin.product.index'),
+              'active-by' => 'product'
             ],
           ]
         ]
@@ -59,7 +59,7 @@
               <li class="nav-item">
                 <a href="{{ $subMenu['url'] }}" @class(['nav-link', 'active' => (!$hasSubMenu && is_int(strpos(url()->current(),$subMenu['active-by'])))])>
                   <i class="far fa-circle nav-icon"></i>
-                  <p>{{ $subMenuLabel }}</p>
+                  <p>{{ ucwords($subMenuLabel) }}</p>
                 </a>
               </li>
               @endforeach

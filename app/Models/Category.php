@@ -9,4 +9,18 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Category extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'name',
+    ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($item) {
+            $item->uuid = \Str::uuid();
+        });
+    }
 }

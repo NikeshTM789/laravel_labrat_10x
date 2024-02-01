@@ -62,12 +62,13 @@ class dt {
     constructor(obj) {
         this.id = '.' + (obj.hasOwnProperty('table_class') ? obj.table_class : 'datatable');
         this.url = obj.hasOwnProperty('url') ? obj.url : window.location.href;
+        this.callback = obj.hasOwnProperty('callback') ? obj.callback : [];
         this.cols = obj.columns;
-        this.init();
+        return this.init();
     }
     init(funcCalls = null) {
-        console.log([this.id, this.url, this.cols]);
-        $(this.id).DataTable({
+        const _this = this;
+        return $(this.id).DataTable({
             lengthMenu: [
                 [5, 10, 25, -1],
                 [5, 10, 25, "All"]
@@ -80,6 +81,7 @@ class dt {
             },
             drawCallback: function() {
                 loadAfterDtTblLoaded();
+                _this.callback.forEach((CB) => CB(this));
             },
             columns: this.cols,
             responsive: true,
@@ -93,22 +95,31 @@ class dt {
 
 function sendAjaxRequest(setup) {
     const url = setup.url;
+    const body = (new FormData(setup.formEl));
     const csrfToken = setup.token;
-    const body = setup.hasOwnProperty('body') ? setup.body : null;
-    const method = setup.hasOwnProperty('method') ? setup.method : 'POST';
+    // const body = setup.hasOwnProperty('body') ? setup.body : null;
+    const method = (setup.hasOwnProperty('method') ? setup.method : 'POST').toUpperCase();
     const headers = {
         //'Content-Type': 'application/json',
         // 'Accept': 'application/json', // ($request->expectsJson())
         'X-Requested-With': 'XMLHttpRequest',
         'X-CSRF-TOKEN': csrfToken
     };
+    let hasError = false;
     fetch(url, {
         method,
         headers,
         body
-    }).then(response => response.json()).then(function(data) {
-        setup.hasOwnProperty('success') ? setup.success() : console.log(data);
-    }).catch(function(error) {
-        setup.hasOwnProperty('error') ? setup.error() : console.log(error);
+    }).then((response) => {
+        if (!response.ok) {
+            hasError = true;
+        }
+        return response.json();
+    }).then(function(data) {
+        if (hasError) {
+            setup.hasOwnProperty('error') ? setup.error(data) : console.log(data);
+        }else{
+            setup.hasOwnProperty('success') ? setup.success(data) : console.log(data);
+        }
     });
 }

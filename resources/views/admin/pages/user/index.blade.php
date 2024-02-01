@@ -1,9 +1,5 @@
 @extends('admin.layouts.index')
 
-@push('pre-css')
-<link rel="stylesheet" type="text/css" href="{{ asset('packages/datatable/datatables.min.css') }}">
-@endpush
-
 @section('content')
 	@component('admin.components.card', [
         'buttons' => [
@@ -45,7 +41,6 @@ $(document).ready(function() {
             searchable: false,
             render: function(data, type, row) {
                 let options = '<div class="btn-group">'+
-                        '<button type="button" class="btn btn-light">Action</button>'+
                         '<button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">'+
                         '<span class="sr-only">Toggle Dropdown</span>'+
                         '</button>'+
