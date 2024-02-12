@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->smallIncrements('id');
-            // $table->uuid('uuid');
+            $table->uuid('uuid');
             $table->tinyText('name');
             $table->tinyText('slug');
             $table->tinyInteger('quantity');
             $table->decimal('price', 8, 2);
-            $table->decimal('discounted_price', 8, 2);
+            $table->decimal('discount', 8, 2)->nullable()->default(0);
             $table->boolean('featured')->default(0);
-            $table->text('details');
+            $table->text('details')->nullable();
             $table->unsignedSmallInteger('added_by');
             $table->foreign('added_by')->references('id')->on('users');
             $table->unsignedSmallInteger('deleted_by')->nullable();
@@ -28,10 +28,6 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
-        // DB::select('ALTER TABLE products add column uuid char(36)');
-        // DB::select("UPDATE products SET uuid = (SELECT uuid_v4())");
-        // DB::select('ALTER TABLE products CHANGE COLUMN uuid uuid char(36) NOT NULL');
-        // DB::select('CREATE UINQUE INDEX products_uuid ON products (uuid)');
     }
 
     /**
@@ -39,6 +35,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        DB::statement('DROP TABLE IF EXISTS products');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 };

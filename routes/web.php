@@ -31,6 +31,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin'], function() {
         Route::match(['GET','POST'], 'category_trash/{category?}', [CategoryController::class, 'trash'])->name('category.trash')->withTrashed();
 
         Route::resource('product', ProductController::class);
+        Route::match(['GET','POST'], 'product_trash/{product?}', [ProductController::class, 'trash'])->name('product.trash')->withTrashed();
+        Route::post('add-product-image/{product}', [ProductController::class, 'addProductImage']);
+
         Route::post('logout', function(){
             Session::flush();
             Auth::logout();

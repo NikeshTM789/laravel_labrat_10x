@@ -42,7 +42,8 @@ class DatabaseSeeder extends Seeder
                 ]))->assignRole(User::USER);
 
         $this->call([
-            UserTableSeeder::class
+            UserTableSeeder::class,
+            CategoryTableSeeder::class
         ]);
         // \App\Models\User::factory(10)->create();
 
