@@ -46,6 +46,7 @@ class ProductController extends Controller
                                   <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <div class="dropdown-menu" role="menu">
+                                  <a class="dropdown-item" href="' . route('admin.product.media', ['product' => $row->uuid]) . '">Media</a>
                                   <a class="dropdown-item" href="' . route('admin.product.edit', $row->id) . '">Edit</a>
                                   <form action='.route('admin.product.destroy', $row->id).' method="POST">'
                                   .csrf_field().
@@ -147,7 +148,20 @@ class ProductController extends Controller
         return $this->view('trash');
     }
 
-    public function addProductImage(Request $request){
-        dd($request->all());
+    public function media(Request $request, Product $product, $type = null){
+        if ($request->isMethod('POST')) {
+            if ($type == Product::MEDIA['featured']) {
+                $product->addMedia($request->file)->toMediaCollection(Product::MEDIA['featured']);
+            }elseif ($type == Product::MEDIA['gallery']) {
+                $product->addMedia($request->file[0])->toMediaCollection(Product::MEDIA['gallery']);
+            }
+            return 'OK';
+        }elseif ($request->isMethod('DELETE')) {
+            $product->media()->find($request->id)->delete();
+            return response()->json('media removed', 200);
+        }
+        $gallery = $product->getMedia(Product::MEDIA['gallery'])->map(fn($media) => ['id' => $media->id, 'name' => $media->name, 'size' => $media->size, 'url' => $media->getUrl('thumbnail')])->toArray();
+        $featured = $product->getMedia(Product::MEDIA['featured'])->map(fn($media) => ['id' => $media->id, 'name' => $media->name, 'size' => $media->size, 'url' => $media->getUrl('thumbnail')])->toArray();
+        return $this->view('media', compact('product','gallery','featured'));
     }
 }

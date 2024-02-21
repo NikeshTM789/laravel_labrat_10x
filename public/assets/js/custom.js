@@ -93,14 +93,57 @@ class dt {
     }
 }
 
+
+/*----------  Dropzone  ----------*/
+class dz{
+    constructor(obj){
+        Dropzone.autoDiscover = false;
+        let preloadedFiles = (obj.hasOwnProperty('preloaded_files') ? obj.preloaded_files : []);
+        this.configs = {
+            headers: {
+                'X-CSRF-TOKEN': obj.csrf_token
+            },
+            parallelUploads: 1,
+            uploadMultiple: (obj.hasOwnProperty('upload_multiple') ? obj.upload_multiple : false),
+            maxFilesize: (obj.hasOwnProperty('max_size') ? obj.max_size : 1572864),
+            maxFiles: (obj.hasOwnProperty('max_files') ? obj.max_files : 1),
+            acceptedFiles: 'image/*',
+            addRemoveLinks: true,
+            dictRemoveFileConfirmation: 'delete',
+            init:function(){
+                  var myDropzone = this
+                    preloadedFiles.forEach((media) =>{
+                      var mockFile = {
+                        id: media.id,
+                        name: media.name,
+                        size: media.size
+                      };
+                      myDropzone.files.push(mockFile);
+                      myDropzone.displayExistingFile(mockFile, media.url, null, '*');
+                    });
+                myDropzone.on('removedfile', (file) => {
+                    console.log(file)
+                    sendAjaxRequest({data:{id: file.id}, token: obj.csrf_token, method: 'DELETE', success: (msg)=> alert('success : '+msg), error: (msg) => alert('error : '+msg)})
+                })
+            }
+        }
+        this.form_id = 'form#'+obj.form_id;
+        return this.init();
+    }
+    init(){
+        const DZ = new Dropzone(this.form_id, this.configs);
+        console.log(DZ);
+    }
+}
+
 function sendAjaxRequest(setup) {
-    const url = setup.url;
-    const body = (new FormData(setup.formEl));
+    const url = (setup.hasOwnProperty('url') ? setup.url : window.location.href);
+    const body = setup.hasOwnProperty('formEl') ? (new FormData(setup.formEl)) : JSON.stringify(setup.data);
     const csrfToken = setup.token;
     // const body = setup.hasOwnProperty('body') ? setup.body : null;
     const method = (setup.hasOwnProperty('method') ? setup.method : 'POST').toUpperCase();
     const headers = {
-        //'Content-Type': 'application/json',
+        'Content-Type': 'application/json',// or else $request->all() is empty array
         // 'Accept': 'application/json', // ($request->expectsJson())
         'X-Requested-With': 'XMLHttpRequest',
         'X-CSRF-TOKEN': csrfToken

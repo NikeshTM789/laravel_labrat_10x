@@ -12,9 +12,9 @@
 <script src="{{ asset('AdminLTE-3.2.0/dist/js/demo.js') }}"></script>
 <script src="{{ asset('packages/toastr/toastr.min.js') }}"></script>
 
-@stack('pre-js')
-
 <script src="{{ asset('assets/js/custom.js') }}"></script>
+
+@stack('pre-js')
 
 @if (session('success'))
 <script>

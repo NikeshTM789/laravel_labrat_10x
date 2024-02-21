@@ -1,9 +1,15 @@
-<form action="{{ $action }}" class="dropzone" id="my-dropzone"></form>
+@php
+$form_id = strtolower($label);
+@endphp
+<div class="form-group">
+    <label>{{ ucwords($label) }}</label>
+    <form action="{{ $action }}" class="dropzone" id="{{ $form_id }}"></form>
+</div>
 
-@pushOnce('post-css')
-<link rel="stylesheet" href="{{ asset('packages\dropzone\min\dropzone.min.css') }}"/>
-@endpushonce
+@push('pre-css')
+<link rel="stylesheet" href="{{ asset('packages/dropzone/dropzone.min.css') }}"/>
+@endpush
 
-@pushOnce('post-js')
-<script src="{{ asset('packages\dropzone\min\dropzone.min.js') }}"></script>
-@endpushonce
+@pushOnce('pre-js')
+<script src="{{ asset('packages/dropzone/dropzone.min.js') }}"></script>
+@endPushOnce

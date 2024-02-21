@@ -11,9 +11,10 @@ class Dropzone extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public String $action)
+    public function __construct(public String $action, public String $label)
     {
         $this->action = $action;
+        $this->label = $label;
     }
 
     /**
