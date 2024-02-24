@@ -46,6 +46,7 @@ class ProductController extends Controller
                                   <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <div class="dropdown-menu" role="menu">
+                                  <a class="dropdown-item" href="'. route('admin.product.show', $row->id) .'">Show</a>
                                   <a class="dropdown-item" href="' . route('admin.product.media', ['product' => $row->uuid]) . '">Media</a>
                                   <a class="dropdown-item" href="' . route('admin.product.edit', $row->id) . '">Edit</a>
                                   <form action='.route('admin.product.destroy', $row->id).' method="POST">'
@@ -84,9 +85,10 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Product $product)
     {
-        //
+        $product->load('media');
+        return $this->view('show')->with('product', $product);
     }
 
     /**
@@ -160,8 +162,20 @@ class ProductController extends Controller
             $product->media()->find($request->id)->delete();
             return response()->json('media removed', 200);
         }
-        $gallery = $product->getMedia(Product::MEDIA['gallery'])->map(fn($media) => ['id' => $media->id, 'name' => $media->name, 'size' => $media->size, 'url' => $media->getUrl('thumbnail')])->toArray();
-        $featured = $product->getMedia(Product::MEDIA['featured'])->map(fn($media) => ['id' => $media->id, 'name' => $media->name, 'size' => $media->size, 'url' => $media->getUrl('thumbnail')])->toArray();
+        $gallery = $product->getMedia(Product::MEDIA['gallery'])
+                    ->map(fn($media) => [
+                        'id' => $media->id,
+                        'name' => $media->name,
+                        'size' => $media->size,
+                        'url' => $media->getUrl('thumbnail')
+                    ])->toArray();
+        $featured = $product->getMedia(Product::MEDIA['featured'])
+                        ->map(fn($media) => [
+                            'id' => $media->id,
+                            'name' => $media->name,
+                            'size' => $media->size,
+                            'url' => $media->getUrl('thumbnail')
+                        ])->toArray();
         return $this->view('media', compact('product','gallery','featured'));
     }
 }

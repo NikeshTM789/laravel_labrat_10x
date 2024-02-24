@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard 2</title>
+  <title>{{ env('APP_NAME', 'Production') }} | @yield('page')</title>
   <?php $layout = 'admin.partials.'; ?>
   @include($layout.'style')
 </head>

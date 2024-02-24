@@ -30,7 +30,7 @@ class Product extends Model implements HasMedia
     {
         parent::boot();
         static::creating(function ($product) {
-            $product->uuid = \Str::uuid(); 
+            $product->uuid = \Str::uuid();
             $product->slug = substr(md5(uniqid(rand(), true)), 0, 10);
             $product->added_by = auth()->id();
         });

@@ -16,6 +16,7 @@ class User extends Authenticatable
 
     const SUPREME = 'supreme';
     const ADMIN = 'admin';
+    const SELLER = 'seller';
     const USER = 'user';
 
     /**

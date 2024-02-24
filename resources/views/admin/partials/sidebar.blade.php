@@ -14,23 +14,28 @@
         'dashboard' => [
           'url' => route('admin.dashboard'),
           'active-by' => 'dashboard',
-          'icon' => 'fa fa-chart-line'
+          'icon' => 'fa fa-chart-line',
+          'show' => true
         ],
         'user' => [
           'url' => route('admin.user.index'),
           'active-by' => 'user',
-          'icon' => 'fa fa-user-circle'
+          'icon' => 'fa fa-user-circle',
+          'show' => isAdmin()
         ],
         'capital' => [
           'icon' => 'fa fa-store',
+          'show' => true,
           'sub-menu' => [
             'category' => [
               'url' => route('admin.category.index'),
-              'active-by' => 'category'
+              'active-by' => 'category',
+              'show' => isAdmin()
             ],
             'product' => [
               'url' => route('admin.product.index'),
-              'active-by' => 'product'
+              'active-by' => 'product',
+              'show' => true
             ],
           ]
         ]
@@ -42,6 +47,9 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
           @foreach ($menus as $label => $item)
+            @unless ($item['show'])
+              @continue
+            @endunless
           <?php $hasSubMenu = array_key_exists('sub-menu', $item); ?>
           <li class="nav-item">
             <a href="{{ !$hasSubMenu ? $item['url'] : '#' }}" @class(['nav-link', 'active' => (!$hasSubMenu && is_int(strpos(url()->current(),$item['active-by'])))])>
@@ -54,6 +62,9 @@
               </p>
             </a>
             @if ($hasSubMenu)
+              @unless ($item['show'])
+                @continue
+              @endunless
             <ul class="nav nav-treeview">
               @foreach ($item['sub-menu'] as $subMenuLabel => $subMenu)
               <li class="nav-item">
