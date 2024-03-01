@@ -46,10 +46,10 @@ class ProductController extends Controller
                                   <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <div class="dropdown-menu" role="menu">
-                                  <a class="dropdown-item" href="'. route('admin.product.show', $row->id) .'">Show</a>
+                                  <a class="dropdown-item" href="'. route('admin.product.show', $row->uuid) .'">Show</a>
                                   <a class="dropdown-item" href="' . route('admin.product.media', ['product' => $row->uuid]) . '">Media</a>
-                                  <a class="dropdown-item" href="' . route('admin.product.edit', $row->id) . '">Edit</a>
-                                  <form action='.route('admin.product.destroy', $row->id).' method="POST">'
+                                  <a class="dropdown-item" href="' . route('admin.product.edit', $row->uuid) . '">Edit</a>
+                                  <form action='.route('admin.product.destroy', $row->uuid).' method="POST">'
                                   .csrf_field().
                                 '<input type="hidden" name="_method" value="DELETE"/>
                                 <button class="dropdown-item dt-delete" type="button">Delete</button>
@@ -78,6 +78,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $formData = $request->validate($this->rules, $this->messages);
+        $formData['added_by'] = auth()->id();
         Product::create($formData)->categories()->attach($request->category);
         return to_route('admin.product.index')->with('success', 'Added');
     }

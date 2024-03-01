@@ -13,28 +13,25 @@
       $menus = [
         'dashboard' => [
           'url' => route('admin.dashboard'),
-          'active-by' => 'dashboard',
           'icon' => 'fa fa-chart-line',
           'show' => true
         ],
         'user' => [
           'url' => route('admin.user.index'),
-          'active-by' => 'user',
           'icon' => 'fa fa-user-circle',
           'show' => isAdmin()
         ],
         'capital' => [
           'icon' => 'fa fa-store',
           'show' => true,
+          'url' => '#',
           'sub-menu' => [
             'category' => [
               'url' => route('admin.category.index'),
-              'active-by' => 'category',
               'show' => isAdmin()
             ],
             'product' => [
               'url' => route('admin.product.index'),
-              'active-by' => 'product',
               'show' => true
             ],
           ]
@@ -46,29 +43,30 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+          <?php $current_url = url()->current(); ?>
           @foreach ($menus as $label => $item)
             @unless ($item['show'])
               @continue
             @endunless
-          <?php $hasSubMenu = array_key_exists('sub-menu', $item); ?>
+          <?php $subMenus = array_key_exists('sub-menu', $item) ? array_column($item['sub-menu'],'url') : [];?>
           <li class="nav-item">
-            <a href="{{ !$hasSubMenu ? $item['url'] : '#' }}" @class(['nav-link', 'active' => (!$hasSubMenu && is_int(strpos(url()->current(),$item['active-by'])))])>
+            <a href="{{ $item['url'] }}" @class(['nav-link', 'active' => ($current_url == $item['url'] || in_array($current_url, $subMenus))])>
               <i class="nav-icon {{ $item['icon'] }}"></i>
               <p>
                 {{ ucwords($label) }}
-                @if($hasSubMenu)
+                @if($subMenus)
                 <i class="right fas fa-angle-left"></i>
                 @endif
               </p>
             </a>
-            @if ($hasSubMenu)
+            @if ($subMenus)
               @unless ($item['show'])
                 @continue
               @endunless
             <ul class="nav nav-treeview">
               @foreach ($item['sub-menu'] as $subMenuLabel => $subMenu)
               <li class="nav-item">
-                <a href="{{ $subMenu['url'] }}" @class(['nav-link', 'active' => (!$hasSubMenu && is_int(strpos(url()->current(),$subMenu['active-by'])))])>
+                <a href="{{ $subMenu['url'] }}" @class(['nav-link', 'active' => ($current_url == $subMenu['url'])])>
                   <i class="far fa-circle nav-icon"></i>
                   <p>{{ ucwords($subMenuLabel) }}</p>
                 </a>

@@ -16,7 +16,7 @@ class UserTableSeeder extends Seeder
         $password = bcrypt('password');
 
         $i = 0;
-        while ($i < 20) {
+        while ($i < 10) {
             User::create([
                 'name' => fake()->name(),
                 'email' => fake()->email(),

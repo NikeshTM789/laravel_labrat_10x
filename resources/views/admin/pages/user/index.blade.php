@@ -1,5 +1,7 @@
 @extends('admin.layouts.index')
 
+@section('page','User List')
+
 @section('content')
 	@component('admin.components.card', [
         'buttons' => [

@@ -13,11 +13,24 @@ class CategoryTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('categories')->insert([
-            ['uuid' => str()->uuid(), 'name' => 'Electronics'],
-            ['uuid' => str()->uuid(), 'name' => 'Clothes'],
-            ['uuid' => str()->uuid(), 'name' => 'Toys'],
-            ['uuid' => str()->uuid(), 'name' => 'Kitchen Products'],
-            ['uuid' => str()->uuid(), 'name' => 'Supermarket'],
+            ['uuid' => str()->uuid(), 'name' => 'electronics'],
+            ['uuid' => str()->uuid(), 'name' => 'clothes'],
+            ['uuid' => str()->uuid(), 'name' => 'toys'],
+            ['uuid' => str()->uuid(), 'name' => 'kitchen appliances'],
+            ['uuid' => str()->uuid(), 'name' => 'supermarket'],
+            ['uuid' => str()->uuid(), 'name' => 'furnitures'],
+            ['uuid' => str()->uuid(), 'name' => 'books'],
+            ['uuid' => str()->uuid(), 'name' => 'footwear'],
+            ['uuid' => str()->uuid(), 'name' => 'pet product'],
+            ['uuid' => str()->uuid(), 'name' => 'food and breverage'],
+            ['uuid' => str()->uuid(), 'name' => 'gaming'],
+            ['uuid' => str()->uuid(), 'name' => 'mobiles and tablets'],
+            ['uuid' => str()->uuid(), 'name' => 'auto and parts'],
+            ['uuid' => str()->uuid(), 'name' => 'jewlery'],
+            ['uuid' => str()->uuid(), 'name' => 'health'],
+            ['uuid' => str()->uuid(), 'name' => 'infant'],
+            ['uuid' => str()->uuid(), 'name' => 'home and garden'],
+            ['uuid' => str()->uuid(), 'name' => 'fashion'],
         ]);
     }
 }

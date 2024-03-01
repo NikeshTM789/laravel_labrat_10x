@@ -20,6 +20,4 @@ if (!function_exists('isAdmin')) {
 	}
 }
 
-
-
 ?>

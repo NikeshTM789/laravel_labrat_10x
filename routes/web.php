@@ -22,7 +22,7 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'admin', 'as' => 'admin'], function() {
     Route::group(['middleware' => ['auth'], 'as' => '.'], function() {
-        Route::get('dashboard', DashboardController::class)->name('dashboard'); # invokable
+        Route::get('/', DashboardController::class)->name('dashboard'); # invokable
 
         Route::resource('user', UserController::class);
         Route::match(['GET','POST'], 'user_trash/{user?}', [UserController::class, 'trash'])->name('user.trash')->withTrashed();

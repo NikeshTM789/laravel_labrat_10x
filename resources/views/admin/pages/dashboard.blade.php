@@ -1,5 +1,7 @@
 @extends('admin.layouts.index')
 
+@section('page','Dashboard')
+
 @section('content')
  <!-- Info boxes -->
 <div class="row">
