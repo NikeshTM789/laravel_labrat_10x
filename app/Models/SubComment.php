@@ -9,4 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class SubComment extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public function subComments(){
+        return $this->hasMany(SubComment::class);
+    }
 }

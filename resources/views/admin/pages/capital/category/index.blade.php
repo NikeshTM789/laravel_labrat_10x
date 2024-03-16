@@ -9,12 +9,10 @@
             ['name' => 'Trash', 'color' => 'danger', 'url' => route('admin.category.trash')]
         ]
         ])
-        @slot('content')
-            <x-admin.datatable :cols="[
-            'name' => 'width:40%;',
-            'action' => 'width:10%;',
-            ]" />
-        @endslot
+        <x-admin.datatable :cols="[
+        'name' => 'width:40%;',
+        'action' => 'width:10%;',
+        ]" />
     @endcomponent
 @stop
 

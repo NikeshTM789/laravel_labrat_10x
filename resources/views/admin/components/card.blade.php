@@ -11,7 +11,7 @@
   </div>
   <!-- /.card-header -->
   <div class="card-body">
-    {{ $content }}
+    {{ $slot }}
   </div>
   <!-- /.card-body -->
 </div>

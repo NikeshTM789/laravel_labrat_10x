@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('comment_id')->references('id')->on('comments');
             $table->tinyText('body');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

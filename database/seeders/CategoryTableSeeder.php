@@ -22,14 +22,14 @@ class CategoryTableSeeder extends Seeder
             ['uuid' => str()->uuid(), 'name' => 'books'],
             ['uuid' => str()->uuid(), 'name' => 'footwear'],
             ['uuid' => str()->uuid(), 'name' => 'pet product'],
-            ['uuid' => str()->uuid(), 'name' => 'food and breverage'],
+            ['uuid' => str()->uuid(), 'name' => 'food & breverage'],
             ['uuid' => str()->uuid(), 'name' => 'gaming'],
-            ['uuid' => str()->uuid(), 'name' => 'mobiles and tablets'],
-            ['uuid' => str()->uuid(), 'name' => 'auto and parts'],
+            ['uuid' => str()->uuid(), 'name' => 'mobiles & tablets'],
+            ['uuid' => str()->uuid(), 'name' => 'auto & parts'],
             ['uuid' => str()->uuid(), 'name' => 'jewlery'],
             ['uuid' => str()->uuid(), 'name' => 'health'],
             ['uuid' => str()->uuid(), 'name' => 'infant'],
-            ['uuid' => str()->uuid(), 'name' => 'home and garden'],
+            ['uuid' => str()->uuid(), 'name' => 'home & garden'],
             ['uuid' => str()->uuid(), 'name' => 'fashion'],
         ]);
     }

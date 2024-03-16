@@ -115,8 +115,11 @@ class CategoryController extends Controller
 
             return response(['message' => $errorMessage, 'errors' => $errorMessages], 422);
         }
+
         $category->update($request->only('name'));
-        return response(['message' => 'Category Updated']);
+        $message = ($category->wasChanged() ? 'Category Updated' : 'Category Remained Same');
+
+        return response(['message' => $message]);
     }
 
     /**

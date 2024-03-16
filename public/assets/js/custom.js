@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {});
+
 toastr.options.timeOut = 0;
 toastr.options.extendedTimeOut = 0;
 
@@ -143,7 +144,7 @@ function sendAjaxRequest(setup) {
     // const body = setup.hasOwnProperty('body') ? setup.body : null;
     const method = (setup.hasOwnProperty('method') ? setup.method : 'POST').toUpperCase();
     const headers = {
-        'Content-Type': 'application/json',// or else $request->all() is empty array
+        //'Content-Type': 'application/json',// or else $request->all() is empty array
         // 'Accept': 'application/json', // ($request->expectsJson())
         'X-Requested-With': 'XMLHttpRequest',
         'X-CSRF-TOKEN': csrfToken

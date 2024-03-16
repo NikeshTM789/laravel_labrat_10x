@@ -13,6 +13,8 @@ class Product extends Model implements HasMedia
 
     const MEDIA = ['gallery' => 'gallery','featured' => 'featured'];
 
+    protected $appends = ['discount_price'];
+
     protected $fillable = [
         'name',
         'quantity',
@@ -22,6 +24,11 @@ class Product extends Model implements HasMedia
         'details'
     ];
 
+    public function getDiscountPriceAttribute()
+    {
+        return $this->price - $this->discount;
+    }
+
     public function getRouteKeyName()
     {
         return 'uuid';
@@ -29,6 +36,15 @@ class Product extends Model implements HasMedia
 
     public function categories(){
         return $this->belongsToMany(Category::class);
+    }
+
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
+
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'added_by', 'id');
     }
 
     public static function boot()

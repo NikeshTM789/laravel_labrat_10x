@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 
-class UserTableSeeder extends Seeder
+class SellerTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,13 +14,13 @@ class UserTableSeeder extends Seeder
     public function run(): void
     {
         $i = 0;
-        while ($i < 100) {
+        while ($i < 25) {
             User::create([
                 'name' => fake()->name(),
                 'email' => fake()->email(),
                 'password' => 'password',
                 'email_verified_at' => fake()->datetime()
-            ])->assignRole(User::USER);
+            ])->assignRole(User::SELLER);
             $i++;
         }
     }

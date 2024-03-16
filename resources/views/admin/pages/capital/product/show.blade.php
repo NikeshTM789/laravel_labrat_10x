@@ -76,10 +76,14 @@ $('[data-gallery=featured_small]').click(function (e) {
 	                      <td>Discount</td>
 	                      <td>{{ $product->discount }}</td>
 	                    </tr>
-	                    @admin
 	                    <tr>
 	                      <td>Featured</td>
 	                      <td>{{ $product->featured }}</td>
+	                    </tr>
+	                    @admin
+	                    <tr>
+	                      <td>Added By</td>
+	                      <td>{{ $product->seller->name }}</td>
 	                    </tr>
 	                    @endadmin
 	                    <tr>
@@ -100,8 +104,8 @@ $('[data-gallery=featured_small]').click(function (e) {
 	                  	<div>
 		                  	@foreach ($product->getMedia($PDT::MEDIA['featured']) as $media)
 			                  	<a data-gallery="featured_big" href="{{ $media->getUrl() }}">
-								  <img data-gallery="featured_small" src="{{ $media->getUrl('thumbnail') }}">
-								</a>
+													  <img data-gallery="featured_small" src="{{ $media->getUrl('thumbnail') }}">
+													</a>
 		                  	@endforeach
 	                  	</div>
 	                  </div>

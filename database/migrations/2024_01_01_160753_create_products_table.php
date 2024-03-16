@@ -25,8 +25,8 @@ return new class extends Migration
             $table->foreign('added_by')->references('id')->on('users');
             $table->unsignedSmallInteger('deleted_by')->nullable();
             $table->foreign('deleted_by')->references('id')->on('users');
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

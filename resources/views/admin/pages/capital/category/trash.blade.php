@@ -2,12 +2,10 @@
 
 @section('content')
     @component('admin.components.card')
-        @slot('content')
-            <x-admin.datatable :cols="[
-            'name' => 'width:40%;',
-            'action' => 'width:10%;',
-            ]" />
-        @endslot
+        <x-admin.datatable :cols="[
+        'name' => 'width:40%;',
+        'action' => 'width:10%;',
+        ]" />
     @endcomponent
 @stop
 

@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\{Route, Auth, Session};
 use App\Http\Controllers\Admin\{DashboardController, UserController, CategoryController, ProductController};
 use App\Http\Controllers\Auth\{LoginController, RegisterController, ForgotPasswordController};
-
+use App\Models\{Product, User};
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,6 +19,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('get-response', function(){
+    $user = App\Models\User::find(111);
+    $result = \App\Models\Product::with('seller:id,name')->whereBelongsTo($user,'seller')->get();
+    dd($result);
+})->name('get_response');
 
 Route::group(['prefix' => 'admin', 'as' => 'admin'], function() {
     Route::group(['middleware' => ['auth'], 'as' => '.'], function() {
@@ -32,7 +37,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin'], function() {
 
         Route::resource('product', ProductController::class);
         Route::match(['GET','POST','DELETE'],'product_media/{product:uuid}/{type?}', [ProductController::class, 'media'])->name('product.media')->whereIn('type',['featured','gallery']);
-        
+
         Route::match(['GET','POST'], 'product_trash/{product?}', [ProductController::class, 'trash'])->name('product.trash')->withTrashed();
         Route::post('add-product-image/{product}', [ProductController::class, 'addProductImage']);
 

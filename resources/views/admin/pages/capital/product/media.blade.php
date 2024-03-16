@@ -2,10 +2,8 @@
 
 @section('content')
 	@component('admin.components.card')
-		@slot('content')
-			<x-form.dropzone :action="route('admin.product.media', ['type' => 'featured', 'product' => $product->uuid])" :label="'featured'" />
-			<x-form.dropzone :action="route('admin.product.media', ['type' => 'gallery', 'product' => $product->uuid])" :label="'gallery'" />
-		@endslot
+		<x-form.dropzone :action="route('admin.product.media', ['type' => 'featured', 'product' => $product->uuid])" :label="'featured'" />
+		<x-form.dropzone :action="route('admin.product.media', ['type' => 'gallery', 'product' => $product->uuid])" :label="'gallery'" />
 	@endcomponent
 @stop
 

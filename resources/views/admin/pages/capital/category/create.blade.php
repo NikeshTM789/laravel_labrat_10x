@@ -2,11 +2,9 @@
 
 @section('content')
 	@component('admin.components.card')
-		@slot('content')
-			<form action="{{ route('admin.category.store') }}" method="POST" id="category_form">
-				@include('admin.pages.capital.category.form')
-			</form>
-		@endslot
+		<form action="{{ route('admin.category.store') }}" method="POST" id="category_form">
+			@include('admin.pages.capital.category.form')
+		</form>
 	@endcomponent
 @stop
 
