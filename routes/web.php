@@ -30,6 +30,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin'], function() {
         Route::get('/', DashboardController::class)->name('dashboard'); # invokable
 
         Route::resource('user', UserController::class);
+        Route::match(['GET','POST'], 'user_import', [UserController::class, 'import'])->name('user.import');
         Route::match(['GET','POST'], 'user_trash/{user?}', [UserController::class, 'trash'])->name('user.trash')->withTrashed();
 
         Route::resource('category', CategoryController::class);

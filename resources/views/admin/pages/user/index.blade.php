@@ -5,6 +5,7 @@
 @section('content')
 	@component('admin.components.card', [
         'buttons' => [
+            ['name' => 'Import', 'color' => 'primary', 'url' => route('admin.user.import')],
             ['name' => 'ADD', 'color' => 'success', 'url' => route('admin.user.create')],
             ['name' => 'Trash', 'color' => 'danger', 'url' => route('admin.user.trash')]
         ]

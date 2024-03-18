@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Events\UserCreateEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UserFormRequest;
+use App\Imports\UserImport;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -17,7 +19,7 @@ class UserController extends Controller
         return view('admin.pages.user.' . $blade_file, $compact);
     }
 
-    private function indexQuery(Request $request, Bool $onlyTrashed = false): Array
+    private function indexQuery(Request $request, Bool $onlyTrashed = false): array
     {
         $columns = $searchable = [];
         foreach ($request->columns as $item) {
@@ -39,8 +41,8 @@ class UserController extends Controller
             })
             ->orderBy($column, $order);
 
-            $recordsTotal = $recordsFiltered = $src->count();
-            $data = $src->when($to > 1, fn($qry) => $qry->skip($limit_init)->take($to))->get();
+        $recordsTotal = $recordsFiltered = $src->count();
+        $data         = $src->when($to > 1, fn($qry) => $qry->skip($limit_init)->take($to))->get();
         return compact('recordsTotal', 'recordsFiltered', 'data');
     }
     /**
@@ -120,5 +122,32 @@ class UserController extends Controller
             return response()->json($data);
         }
         return $this->view('trash');
+    }
+
+    public function import(Request $request)
+    {
+        if ($request->isMethod('POST')) {
+            $request->validate([
+                'excel' => 'required|mimes:xlsx',
+            ]);
+
+            $import = new UserImport();
+            $import->import($request->file('excel'));
+            $failures = $import->failures();
+
+            $import_errors = [];
+            foreach ($failures as $key => $value) {
+                if (array_key_exists($value->row(), $import_errors)) {
+                    $import_errors[$value->row()] = [...$import_errors[$value->row()],...$value->errors()];
+                } else {
+                    $import_errors[$value->row()] = $value->errors();
+                }
+            }
+            if ($import_errors) {
+                return back()->with('import_errors', $import_errors);
+            }
+            return back()->withSuccess('Data imported');
+        }
+        return $this->view('import');
     }
 }
