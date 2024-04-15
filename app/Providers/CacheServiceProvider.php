@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class CacheServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,8 @@ class CacheServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Cache::remember('categories', 86400, fn() => DB::table('categories')->whereNull('deleted_at')->pluck('name','id')->all());
+        if (Schema::hasTable('mytable')) {
+            Cache::remember('categories', 86400, fn() => DB::table('categories')->whereNull('deleted_at')->pluck('name','id')->all());
+        }
     }
 }
