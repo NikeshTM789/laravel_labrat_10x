@@ -14,4 +14,8 @@ class Comment extends Model
     public function subComments(){
         return $this->hasMany(SubComment::class);
     }
+
+    public function likes(){
+        return $this->morphToMany(Like::class,'likes');
+    }
 }

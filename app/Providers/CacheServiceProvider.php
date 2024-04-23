@@ -22,7 +22,7 @@ class CacheServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (Schema::hasTable('mytable')) {
+        if (Schema::hasTable('categories')) {
             Cache::remember('categories', 86400, fn() => DB::table('categories')->whereNull('deleted_at')->pluck('name','id')->all());
         }
     }

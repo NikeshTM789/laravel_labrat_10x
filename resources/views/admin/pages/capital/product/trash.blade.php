@@ -1,5 +1,7 @@
 @extends('admin.layouts.index')
 
+@section('page','Product Trashed')
+
 @section('content')
     @component('admin.components.card')
         <x-admin.datatable :cols="[

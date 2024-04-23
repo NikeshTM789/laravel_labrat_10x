@@ -137,7 +137,7 @@ class ProductController extends Controller
                                   <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <div class="dropdown-menu" role="menu">
-                                    <form action="' . route('admin.product.trash', $row->id) . '" method="POST">' .
+                                    <form action="' . route('admin.product.trash', $row->uuid) . '" method="POST">' .
                                       csrf_field() .
                                         '<button class="dropdown-item dt-restore" type="button">Restore</button>
                                     </form>

@@ -24,6 +24,7 @@ class ProductTableSeeder extends Seeder
             shuffle($category_ids);
             $_3_random_category_ids = array_slice($category_ids, 0, 5);
 
+            $datetTime = fake()->dateTime();
             Product::create([
                 'name' => fake()->catchPhrase(),
                 'quantity' => fake()->randomDigitNotNull(),
@@ -32,6 +33,8 @@ class ProductTableSeeder extends Seeder
                 'featured' => fake()->boolean(),
                 'details' => fake()->text(500),
                 'added_by' => $user_id,
+                'created_at' => $datetTime,
+                'updated_at' => $datetTime,
             ])->categories()->attach($_3_random_category_ids);
 
             $i++;

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\{HasMedia, InteractsWithMedia, MediaCollections\Models\Media};
 use Spatie\Image\Enums\CropPosition;
+use App\Models\Like;
+
 class Product extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes, InteractsWithMedia;
@@ -24,14 +26,18 @@ class Product extends Model implements HasMedia
         'details'
     ];
 
-    public function getDiscountPriceAttribute()
-    {
-        return $this->price - $this->discount;
+    public function likes(){
+        return $this->morphOne(Like::class,'likes');
     }
 
     public function getRouteKeyName()
     {
         return 'uuid';
+    }
+
+    public function getDiscountPriceAttribute()
+    {
+        return $this->price - $this->discount;
     }
 
     public function categories(){
@@ -40,6 +46,10 @@ class Product extends Model implements HasMedia
 
     public function comments(){
         return $this->hasMany(Comment::class);
+    }
+
+    public function comment(){
+        return $this->hasOne(Comment::class)->latestOfMany();
     }
 
     public function seller()
@@ -70,6 +80,6 @@ class Product extends Model implements HasMedia
                 $this->addMediaConversion('thumbnail')
                     ->width(500)
                     ->height(500);
-            });;
+            });
     }
 }

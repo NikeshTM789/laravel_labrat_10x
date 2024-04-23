@@ -54,4 +54,8 @@ class User extends Authenticatable
     public function products(){
         return $this->hasMany(Product::class,'added_by','id');
     }
+
+    public function likes(){
+        return $this->morphTo(Like::class, 'likes');
+    }
 }
