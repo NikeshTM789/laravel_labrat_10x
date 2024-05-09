@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laravel + Vue</title>
-    @vite('resources/css/app.css')
+    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
 </head>
 <body>
     <body>
         <div id="app"></div>
     </body>
-    @vite('resources/js/app.js')
-</body>
 </html>

@@ -1,5 +1,5 @@
-import Home from './pages/HomeRoute.vue';
-import Test from './pages/TestRoute.vue';
+import Home from './pages/Home.vue';
+import Contact from './pages/Contact.vue';
 
 import { createRouter, createWebHistory } from "vue-router";
 
@@ -9,8 +9,8 @@ const routes = [
         component: Home,
     },
     {
-        path: "/test",
-        component: Test,
+        path: "/contact",
+        component: Contact,
     }
 ];
 
