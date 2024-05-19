@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\{HasMedia, InteractsWithMedia, MediaCollections\Models\Media};
 use Spatie\Image\Enums\CropPosition;
-use App\Models\Like;
+use App\Models\{Like,Comment,SubComment};
 
 class Product extends Model implements HasMedia
 {
@@ -50,6 +50,10 @@ class Product extends Model implements HasMedia
 
     public function comment(){
         return $this->hasOne(Comment::class)->latestOfMany();
+    }
+
+    public function subcomments(){
+        return $this->hasManyThrough(SubComment::class,Comment::class,'product_id','comment_id');
     }
 
     public function seller()
