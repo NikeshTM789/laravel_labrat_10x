@@ -82,8 +82,8 @@ class Product extends Model implements HasMedia
             ->registerMediaConversions(function (Media $media) {
                 $this->addMediaConversion('dropzone')->crop(120, 120);
                 $this->addMediaConversion('thumbnail')
-                    ->width(500)
-                    ->height(500);
+                    ->width(200)
+                    ->height(200);
             });
     }
 }

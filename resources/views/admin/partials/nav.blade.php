@@ -134,12 +134,12 @@
         </a>
       </li>
       <li class="nav-item">
-        <form action="{{ route('admin.logout') }}" method="POST" id="logout">
-          @csrf
-        </form>
-        <a class="nav-link" href="#" role="button" onclick="document.getElementById('logout').submit()">
+        <a class="nav-link" href="#" role="button" id="logout">
           <i class="fa-sign-out-alt fas"></i>
         </a>
+        <form action="{{ route('admin.logout') }}" method="POST">
+          @csrf
+        </form>
       </li>
     </ul>
   </nav>
