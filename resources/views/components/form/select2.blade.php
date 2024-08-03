@@ -15,7 +15,7 @@
           ||
           in_array($key, old('category', []))
           )
-        >{{ ucwords($option) }}</option>
+        >{{ ucwords(str_replace('_',' ',$option)) }}</option>
       @endforeach
     </select>
     @error(str_replace('[]', '', $name))

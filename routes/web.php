@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\{Route, Auth, Session};
-use App\Http\Controllers\Admin\{DashboardController, UserController, CategoryController, ProductController};
+use App\Http\Controllers\Admin\{DashboardController, UserController, CategoryController, ProductController, RoleController};
 use App\Http\Controllers\Auth\{LoginController, RegisterController, ForgotPasswordController};
 use App\Models\{Product, User};
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,6 +33,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin'], function() {
         Route::resource('user', UserController::class);
         Route::match(['GET','POST'], 'user_import', [UserController::class, 'import'])->name('user.import');
         Route::match(['GET','POST'], 'user_trash/{user?}', [UserController::class, 'trash'])->name('user.trash')->withTrashed();
+
+        Route::resource('role', RoleController::class)->except(['show'])->missing(function(Request $request){
+            return response(['message' => 'Role Could not be found'], 404);
+        });
+
+        Route::match(['GET','POST'], 'role_trash/{role?}', [RoleController::class, 'trash'])->name('role.trash')->withTrashed();
 
         Route::resource('category', CategoryController::class);
         Route::match(['GET','POST'], 'category_trash/{category?}', [CategoryController::class, 'trash'])->name('category.trash')->withTrashed();

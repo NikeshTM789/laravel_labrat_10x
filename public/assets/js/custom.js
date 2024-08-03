@@ -94,7 +94,7 @@ class dt {
             responsive: true,
             language: {
                 search: "_INPUT_",
-                searchPlaceholder: "search users",
+                searchPlaceholder: "Search",
             }
         });
     }

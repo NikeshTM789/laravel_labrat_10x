@@ -14,6 +14,7 @@ class CategoryController extends Controller
     {
         return view('admin.pages.capital.category.' . $blade_file, $compact);
     }
+
     /**
      * Display a listing of the resource.
      */

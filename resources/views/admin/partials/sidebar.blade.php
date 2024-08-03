@@ -34,6 +34,21 @@
               'url' => route('admin.product.index'),
               'show' => true
             ],
+          ],
+        ],
+        'settings' => [
+          'icon' => 'fa fa-cogs',
+          'show' => true,
+          'url' => '#',
+          'sub-menu' => [
+            'app' => [
+              'url' => '#',
+              'show' => true
+            ],
+            'privilege' => [
+              'url' => route('admin.role.index'),
+              'show' => true
+            ]
           ]
         ]
       ];
