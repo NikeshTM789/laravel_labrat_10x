@@ -23,16 +23,17 @@ class RoleController extends Controller {
 			$data = Role::select(['name', 'id']);
 			return DataTables::of($data)
 				->addIndexColumn()
+				->addColumn('permissions', fn($row) => $row->permissions->implode('name',', '))
 				->addColumn('action', function ($row) {
 					$btn = '<div class="btn-group">
-                                <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
-                                  <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <div class="dropdown-menu" role="menu">
-                                  <a class="dropdown-item" href="' . route('admin.role.edit', $row->id) . '">Edit</a>
-                                  <a class="dropdown-item dt-ajax-delete" data-url="' . route('admin.role.destroy', $row->id) . '" href="#">Delete</a>
-                                </div>
-                              </div>';
+                    <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu" role="menu">
+                      <a class="dropdown-item" href="' . route('admin.role.edit', $row->id) . '">Edit</a>
+                      <a class="dropdown-item dt-ajax-delete" data-url="' . route('admin.role.destroy', $row->id) . '" href="#">Delete</a>
+                    </div>
+                  </div>';
 					return $btn;
 				})
 				->rawColumns(['action'])

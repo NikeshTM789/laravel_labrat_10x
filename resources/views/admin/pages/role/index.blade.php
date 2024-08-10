@@ -1,6 +1,6 @@
 @extends('admin.layouts.index')
 
-@section('page','Category List')
+@section('page','Role List')
 
 @section('content')
     @component('admin.components.card', [
@@ -9,7 +9,8 @@
         ]
         ])
         <x-admin.datatable :cols="[
-        'name' => 'width:40%;',
+        'name' => 'width:15%;',
+        'permissions' => 'width:75%;',
         'action' => 'width:10%;',
         ]" />
     @endcomponent
@@ -22,6 +23,11 @@ $(document).ready(function() {
         {
             data: 'name',//received
             name: 'name'// DB column name
+        },{
+            data: 'permissions',//received
+            name: 'permissions',// DB column name
+            orderable: false,
+            searchable: false
         }, {
             data: 'action',
             name: 'action',
