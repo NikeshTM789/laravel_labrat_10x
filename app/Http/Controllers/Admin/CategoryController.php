@@ -31,7 +31,11 @@ class CategoryController extends Controller
                                 </button>
                                 <div class="dropdown-menu" role="menu">
                                   <a class="dropdown-item" href="' . route('admin.category.edit', $row->id) . '">Edit</a>
-                                  <a class="dropdown-item dt-ajax-delete" data-url="' . route('admin.category.destroy', $row->id) . '" href="#">Delete</a>
+                                  <form method="POST" action="'.route('admin.category.destroy', $row->id).'">
+                                      '.csrf_field().'
+                                      <input type="hidden" name="_method" value="DELETE">
+                                      <a class="dropdown-item dt-ajax-delete" href="#">Delete</a>
+                                  </form>
                                 </div>
                               </div>';
                     return $btn;

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\{Route, Auth, Session};
-use App\Http\Controllers\Admin\{DashboardController, UserController, CategoryController, ProductController, RoleController};
+use App\Http\Controllers\Admin\{DashboardController, UserController, CategoryController, ProductController, RoleController, SettingController};
 use App\Http\Controllers\Auth\{LoginController, RegisterController, ForgotPasswordController};
 use App\Models\{Product, User};
 use Illuminate\Http\Request;
@@ -15,7 +15,6 @@ use Illuminate\Http\Request;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -28,7 +27,10 @@ Route::get('get-response', function(){
 
 Route::group(['prefix' => 'admin', 'as' => 'admin'], function() {
     Route::group(['middleware' => ['auth'], 'as' => '.'], function() {
-        Route::get('/', DashboardController::class)->name('dashboard'); # invokable
+        // Route::group(['middleware' => 'cache.response'], function() {
+            Route::get('/', DashboardController::class)->name('dashboard'); # invokable
+            Route::match(['GET','POST'],'app', SettingController::class)->name('app'); # invokable
+        // });
 
         Route::resource('user', UserController::class);
         Route::match(['GET','POST'], 'user_import', [UserController::class, 'import'])->name('user.import');

@@ -12,18 +12,17 @@
 <script>
 document.getElementById('submit').addEventListener('click', function(e) {
 	console.log(e);
-	e.preventDefault();
-	sendAjaxRequest({
-		url: "{{ route('admin.category.store') }}",
-		token: "{{ csrf_token() }}",
-		formEl: e.target.parentElement,
-		success: function(response){
+	const caller = {
+		ok: function(response){
 			toastr.success(response.message);
 		},
-		error: function(response){
+		err: function(response){
+			console.log('ER',response.message);
 			toastr.error(response.message);
-		}
-	});
+		},
+		form_reset:true
+	};
+	ajax(e, caller);
 });
 </script>
 @endpush

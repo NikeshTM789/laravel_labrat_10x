@@ -144,33 +144,50 @@ class dz{
     }
 }
 
-function sendAjaxRequest(setup) {
-    const url = (setup.hasOwnProperty('url') ? setup.url : window.location.href);
-    const body = setup.hasOwnProperty('formEl') ? (new FormData(setup.formEl)) : JSON.stringify(setup.data);
-    const csrfToken = setup.token;
-    // const body = setup.hasOwnProperty('body') ? setup.body : null;
-    const method = (setup.hasOwnProperty('method') ? setup.method : 'POST').toUpperCase();
+/*----------  Ajax  ----------*/
+function ajax(ev, setup = {err:(msg) => alert(msg), ok:(msg) => alert(msg)}){
+    ev.preventDefault();
+    const btn = ev.target;
+    const form = btn.closest('form');
+    const csrf_token = form.querySelector('input[name="_token"]').value;
+    const url = form.getAttribute('action');
+    const method = form.getAttribute('method').toUpperCase();
+
+    let form_data = new FormData(form);
+    let entries = Object.fromEntries(form_data.entries());
+    const body = JSON.stringify(entries);
+
     const headers = {
-        'Content-Type': 'application/json',// or else $request->all() is empty array
-        // 'Accept': 'application/json', // ($request->expectsJson())
+        'Content-Type': 'application/json',// is a header used in HTTP requests that tells the server what kind of data is being sent in the request body.
+        'Accept': 'application/json', // header is used in an HTTP request to tell the server what type of data the client (like your browser or application) expects to receive in response.
         'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRF-TOKEN': csrfToken
+        'X-CSRF-TOKEN': csrf_token
     };
-    let hasError = false;
+
+    btn.setAttribute('disabled',true);
+    const btn_label = btn.innerHTML;
+    // btn.innerHTML = ' <i class="fas fa-spinner fa-pulse"></i>';
+    btn.innerHTML = '<i class="fas fa-sync fa-spin"></i>';
     fetch(url, {
         method,
         headers,
         body
     }).then((response) => {
-        if (!response.ok) {
-            hasError = true;
+        if (response.ok) {
+            return response.json();
         }
-        return response.json();
+        return response.json().then(errData => {
+            console.log(errData);
+            throw new Error(errData.message || 'An error occurred');
+        });
     }).then(function(data) {
-        if (hasError) {
-            setup.hasOwnProperty('error') ? setup.error(data) : console.log(data);
-        }else{
-            setup.hasOwnProperty('success') ? setup.success(data) : console.log(data);
-        }
+        setup.ok(data);
+        btn.innerHTML = btn_label;
+        btn.removeAttribute('disabled');
+        (setup.hasOwnProperty('form_reset') && setup.form_reset) ? form.reset() : 0;
+    }).catch(error => {
+        setup.err(error);
+        btn.innerHTML = btn_label;
+        btn.removeAttribute('disabled');
     });
 }

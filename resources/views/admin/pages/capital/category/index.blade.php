@@ -43,19 +43,16 @@ $(document).ready(function() {
                             confirmButtonText: 'Yes, delete it!'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                sendAjaxRequest({
-                                    url: _e.target.dataset.url,
-                                    token: "{{ csrf_token() }}",
-                                    method:'delete',
-                                    formEl: e.target.parentElement,
-                                    success: function(response){
+                                const caller = {
+                                    ok: function(response){
                                         refresh();
                                         toastr.success(response.message);
                                     },
-                                    error: function(response){
+                                    err: function(response){
                                         toastr.error(response.message);
                                     }
-                                });
+                                };
+                                ajax(_e, caller);
                             }
                         });
                     });

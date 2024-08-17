@@ -12,7 +12,7 @@ use DataTables;
 class RoleController extends Controller {
 
 	private function view($blade_file, $compact = []) {
-		return view('admin.pages.role.' . $blade_file, $compact);
+		return view('admin.pages.settings.role.' . $blade_file, $compact);
 	}
 
 	/**
