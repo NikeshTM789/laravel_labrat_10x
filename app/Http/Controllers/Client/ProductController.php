@@ -10,7 +10,7 @@ use App\Http\Resources\ProductResource;
 class ProductController extends Controller
 {
     function allProduct(){
-        $product = Product::with('media')->latest()->paginate(25);
+        $product = Product::with('media')->latest()->take(30)->paginate(5);
         return ProductResource::collection($product);
     }
 }

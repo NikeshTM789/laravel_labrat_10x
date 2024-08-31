@@ -11,10 +11,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "@popperjs/core": "^2.11.8",
-        "axios": "^1.7.2",
-        "bootstrap": "^5.3.3",
-        "sass": "^1.77.6",
+        "axios": "^1.7.5",
         "vue": "^3.4.29",
         "vue-loader": "^17.4.2",
         "vue-router": "^4.3.3"

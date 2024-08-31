@@ -1,25 +1,19 @@
 <style scoped>
-.product{
-    width: 200px;
-}
 </style>
 
 <template>
-    <div class="container">
-        <div class="align-items-start d-flex flex-wrap gap-4 justify-content-between products">
-            <div class="card mb-3 product" v-for="(v,i) in products">
-              <img :src="v.image" class="card-img-top" alt=""/>
-              <div class="card-body">
-                <div class="card-title" v-html="getTitle(v.name)"></div>
-                <p class="price"><small class="text-muted">Rs. {{ v.price - v.discount }}</small></p>
-                <div v-if="v.discount > 0"><s>Rs. {{ v.price }}</s></div>
-              </div>
-            </div>
-        </div>
-        <nav aria-label="Page navigation example">
+    <div class="mt-3">
+        <search/>
+    </div>
+    <div class="col-md-10 d-flex flex-column offset-md-1">
+        <h3>Recent Posts</h3>
+
+        <product v-for="(product,i) in products" :key="product.slug" :product="product"/>
+
+        <nav aria-label="Page navigation example" class="m-auto">
           <ul class="pagination">
-            <li class="page-item" v-for="(v,i) in pagination">
-              <a :class="{'page-link': true, 'disabled' : (v.url== null || v.active)}" href="#" aria-label="Previous" @click.prevent="fetchProducts(v.url)">
+            <li v-for="(v,i) in pagination" :class="{'page-item': true, 'active' : v.active, 'disabled' : (v.url== null)}">
+              <a class="page-link" href="#" aria-label="Previous" @click.prevent="fetchProducts(v.url)">
                 <span aria-hidden="true" v-html="v.label"></span>
               </a>
             </li>
@@ -29,7 +23,16 @@
 </template>
 
 <script>
+import Search from './components/search.vue';
+import Product from './components/product.vue';
+import SM from './components/modules/search-module.vue';
+
 export default{
+    components:{
+        Search,
+        Product,
+        'adv-search' : SM
+    },
     data(){
         return {
             domain: window.location.href+'api/',
@@ -45,9 +48,6 @@ export default{
                     this.products = (data.data);
                     this.pagination = (data.meta.links);
                 });
-        },
-        getTitle(title){
-            return (title.length > 40) ? (title).substring(0,30)+'...' : title;
         }
     },
     created(){
