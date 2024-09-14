@@ -3,7 +3,7 @@
 
 <template>
     <div class="mt-3">
-        <search/>
+        <search @search="search" :search_results="search_results" :searching="searching"/>
     </div>
     <div class="col-md-10 d-flex flex-column offset-md-1">
         <h3>Recent Posts</h3>
@@ -35,19 +35,34 @@ export default{
     },
     data(){
         return {
-            domain: window.location.href+'api/',
+            domain: window.location.href,
             products:null,
-            pagination:null
+            pagination:null,
+            search_results:[],
+            searching:false
         }
     },
     methods:{
-        fetchProducts(link = this.domain+'products'){
+        fetchProducts(link = this.domain+'api/products'){
             fetch(link)
                 .then(response => response.json())
                 .then((data) => {
                     this.products = (data.data);
                     this.pagination = (data.meta.links);
                 });
+        },
+        search(key){
+            this.searching = true;
+            const params = {key};
+
+            axios.get(this.domain+'api/products', {params})
+              .then(response => {
+                this.search_results = response.data;
+              })
+              .catch(error => {
+                console.error('Error:', error);
+              })
+              .finally(() => this.searching = false);
         }
     },
     created(){

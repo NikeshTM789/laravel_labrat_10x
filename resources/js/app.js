@@ -1,4 +1,4 @@
-// import './bootstrap';
+import './bootstrap';
 
 import Route from './route.js';
 import App from "./App.vue";
