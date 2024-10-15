@@ -31,7 +31,7 @@ class ProductTableSeeder extends Seeder
                 'price' => fake()->numberBetween(800,8000),
                 'discount' => fake()->numberBetween(0,200),
                 'featured' => fake()->boolean(),
-                'details' => fake()->text(500),
+                'details' => implode('',array_map(fn($str) => "<p>$str</p>", [fake()->text(rand(500, 1000)), fake()->text(rand(500, 1000)), fake()->text(rand(500, 1000)), fake()->text(rand(500, 1000)), fake()->text(rand(500, 1000))])),
                 'added_by' => $user_id,
                 'created_at' => $datetTime,
                 'updated_at' => $datetTime,

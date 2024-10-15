@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\{DashboardController, UserController, CategoryCon
 use App\Http\Controllers\Auth\{LoginController, RegisterController, ForgotPasswordController};
 use App\Models\{Product, User};
 use Illuminate\Http\Request;
+use App\Http\Resources\{ProductResource, ProductCollection};
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,6 +16,12 @@ use Illuminate\Http\Request;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('test', function () {
+    $data = Product::paginate(2);
+    $result = new ProductCollection($data);
+    return ($result);
+});
+
 Route::get('/', function () {
     return view('welcome');
 });

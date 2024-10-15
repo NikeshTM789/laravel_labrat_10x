@@ -17,7 +17,7 @@
                 <slot></slot>
                 <div class="form-group">
                     <div class="input-group input-group-lg position-relative">
-                        <input type="search" class="form-control form-control-lg" placeholder="Type your keywords here" @keyup="search_value" :readonly="searching">
+                        <input type="text" class="form-control form-control-lg" placeholder="Type your keywords here" @keyup="search_value" :readonly="searching">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-lg btn-default">
                                 <i :class="{'fa ':true, 'fa-search':!searching, 'fa-spinner fa-pulse':searching}"></i>

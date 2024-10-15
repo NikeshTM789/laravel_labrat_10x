@@ -16,12 +16,12 @@ class ProductResource extends JsonResource
     {
         $featured_image = $this->getFirstMediaUrl('featured','thumbnail');
         $name = $this->name;
-        $name = (strlen($name) > 40) ? substr($name, 0, 30).'...' : $name;
+        // $name = (strlen($name) > 40) ? substr($name, 0, 30).'...' : $name;
 
         $details = $this->details;
-        $details = (strlen($details) > 200) ? substr($details, 0, 200).'...' : $details;
-        return [
-            'id'     => $this->id,
+        // $details = (strlen($details) > 200) ? substr($details, 0, 200).'...' : $details;
+        $data = [
+            'uuid'     => $this->uuid,
             'name'     => $name,
             'slug'     => $this->slug,
             'qty'      => $this->quantity,
@@ -30,5 +30,9 @@ class ProductResource extends JsonResource
             'image'    => empty($featured_image) ? asset('assets/img/default-product.png') : $featured_image,
             'description' =>  $details
         ];
+            $data['gallery'] = $this->getMedia('gallery')->map(fn($img) => $img->getUrl());
+        if ($request->query('product')) {
+        }
+        return $data;
     }
 }

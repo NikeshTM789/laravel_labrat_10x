@@ -35,7 +35,6 @@ export default{
     },
     data(){
         return {
-            domain: window.location.href,
             products:null,
             pagination:null,
             search_results:[],
@@ -43,19 +42,22 @@ export default{
         }
     },
     methods:{
-        fetchProducts(link = this.domain+'api/products'){
-            fetch(link)
-                .then(response => response.json())
-                .then((data) => {
+        fetchProducts(url = '/products'){
+            axios.get(url)
+              .then(response => {
+                    let data = response.data;
                     this.products = (data.data);
                     this.pagination = (data.meta.links);
-                });
+                })
+              .catch(error => {
+                console.error('Error:', error);
+              });
         },
         search(key){
             this.searching = true;
             const params = {key};
 
-            axios.get(this.domain+'api/products', {params})
+            axios.get('/search-products', {params})
               .then(response => {
                 this.search_results = response.data;
               })

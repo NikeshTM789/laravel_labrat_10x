@@ -72,8 +72,21 @@ class Product extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->commonMediaProps($this->addMediaCollection(self::MEDIA['featured'])->singleFile());
-        $this->commonMediaProps($this->addMediaCollection(self::MEDIA['gallery']));
+        $this->commonMediaProps(
+            $this->addMediaCollection(self::MEDIA['featured'])
+                    ->useFallbackUrl('assets\img\default-product.png', 'dropzone')
+                    ->useFallbackUrl('assets\img\default-product.png', 'thumbnail')
+                    ->useFallbackPath(public_path('assets\img\default-product.png', 'dropzone'))
+                    ->useFallbackPath(public_path('assets\img\default-product.png'), 'thumbnail')
+                    ->singleFile()
+                );
+        $this->commonMediaProps(
+            $this->addMediaCollection(self::MEDIA['gallery'])
+                ->useFallbackUrl('assets\img\default-product.png', 'dropzone')
+                ->useFallbackUrl('assets\img\default-product.png', 'thumbnail')
+                ->useFallbackPath(public_path('assets\img\default-product.png', 'dropzone'))
+                ->useFallbackPath(public_path('assets\img\default-product.png'), 'thumbnail')
+        );
     }
 
     private function commonMediaProps($media){
